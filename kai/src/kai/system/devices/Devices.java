@@ -1,10 +1,15 @@
 package kai.system.devices;
 
-public abstract class Devices {
-	public abstract void parse(String msg);
-	public abstract void reset();
-	public abstract void createType1Device();
-	public abstract void createType2Device();
-	public abstract String extDevToString();
-	public abstract String rosDevToString();
+import java.util.HashMap;
+
+public abstract class Devices implements KaiMessage {
+	public static HashMap<String, String>  devices = new HashMap<String, String>();
+	
+	static {
+		devices.put("#light", "L");
+		devices.put("#wind", "W");
+		devices.put("#coffee", "C");
+		devices.put("#door", "D");
+		devices.put("#homeCond", "HC");
+	};
 }

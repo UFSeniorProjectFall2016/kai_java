@@ -6,7 +6,6 @@ import main.java.Start;
 public class ReceivingState extends States {
 	public void execute(Kai kai) {
 		printCurrentState();
-//		System.out.println("Thread: " + Thread.currentThread().getName() + ", msg:" + Start.msg_flag);
 //		System.out.println("Thread before: " + Thread.currentThread().getName());
 		
 		Start.state = StatesFactory.getState(StatesFactory.SENDING_STATE);

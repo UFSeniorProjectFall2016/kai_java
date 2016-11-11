@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import kai.system.states.StatesFactory;
 import main.java.Start;
 
 public class SocketConnection {
@@ -28,10 +27,7 @@ public class SocketConnection {
 				public void call(Object... args) {
 					JSONObject obj = (JSONObject) args[0];
 					// Message received
-					System.out.println("Thread: " + Thread.currentThread().getName() + ", msg:" + Start.msg_flag);
-					Start.msg_flag = true;
-					Start.msg = obj.toString();
-					Start.state = StatesFactory.getState(StatesFactory.SENDING_STATE);
+					Start.receiveMessage(obj.toString());
 				}
 			});
 			socket.connect();
