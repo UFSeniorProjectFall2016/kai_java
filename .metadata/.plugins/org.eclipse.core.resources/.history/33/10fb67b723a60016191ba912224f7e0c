@@ -1,0 +1,11 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class SendingState extends States {
+	
+	public void execute(Kai kai, States state) {
+		printCurrentState();
+		
+	}
+}

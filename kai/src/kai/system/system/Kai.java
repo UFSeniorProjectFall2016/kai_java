@@ -1,72 +1,38 @@
 package kai.system.system;
 
-import edu.wpi.rail.jrosbridge.Ros;
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import kai.system.states.States;
-
 public class Kai {
-	// Member variables
-	private static Ros ros;
-	private static Socket socket;
-	protected States state;
-	
-	// Members connections
-	private String webHost;
-	private String rosHost;
+	// Class Members definition
+	private String webUri;
+	private String rosUri;
 	private int rosPort;
 	
-	// Status member variables
-	public boolean rosConStatus = false;
-	public boolean webConStatus = false;
-	public boolean dbConStatus = false;
+	RosConnection rosConn;
+	SocketConnection webConn;
 	
-	/* ***************************************************
-	 * SYSTEM METHODS
-	 * ***************************************************/
-	// Creating new ROS connection
-	public void RosConnection() {
-		ros = new Ros(rosHost, rosPort);
-	}
-	
-	// Creating new Socket Connection
-	public void SocketConnection() throws Exception {
-		socket = IO.socket(webHost);
-		socket.emit("connected_user", "Java Application");
-	}
-	
-	// Run the program
-	public void run() {
-		if(state == null) {
-			System.out.println("No states has been set, program cannot run");
-		} else {
-			// Run program
-			state.next();
-		}
-	}
-	
-	/* ***************************************************
-	 * SETTER METHODS
-	 * ***************************************************/
-	public void setConnectionInfo(String webHost, String rosHost, int rosPort) {
-		this.webHost = webHost;
-		this.rosHost = rosHost;
+	public Kai(String webUri, String rosUri, int rosPort) {
+		this.webUri = webUri;
+		this.rosUri = rosUri;
 		this.rosPort = rosPort;
 	}
 	
-	public void setState(States state) {
-		// Default to boot up
-		this.state = state;
+	public void connect() {
+//		rosConn = new RosConnection("localhost", 9090);
+		webConn = new SocketConnection(webUri);
 	}
 	
-	/* ***************************************************
-	 * GETTER METHODS
-	 * ***************************************************/
-	public Ros getRos() {
-		return ros;
+	public RosConnection getROSConn() {
+		return rosConn;
 	}
 	
-	public Socket getSocket() {
-		return socket;
+	public SocketConnection getWebConn() {
+		return webConn;
+	}
+	
+	public boolean webConnected() {
+		return (webConn==null) ? false : webConn.isConnected();
+	}
+	
+	public boolean rosConnected() {
+		return true;
 	}
 }

@@ -1,0 +1,9 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class ConnectingState extends States {
+	public void execute(Kai kai) {
+		
+	}
+}

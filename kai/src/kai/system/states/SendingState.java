@@ -1,12 +1,22 @@
 package kai.system.states;
 
-public class SendingState extends States {
+import kai.system.system.Kai;
+import main.java.Start;
 
-	public void next() {
+public class SendingState extends States {
+	
+	public void execute(Kai kai) {
+		printCurrentState();
 		
-		// Try sending message to ROS and if fails, 
-		// Set ROS connection false, forward to connecting state
-		// Else remain in state until time expired then move to
-		// receive State
+		// Wait for n milliseconds in sending state
+		long strt = System.currentTimeMillis();
+		while ((System.currentTimeMillis() - strt < 500)) {}
+		if(Start.msg_flag) {
+			System.out.println("Sending -> " + Start.msg);
+			Start.clearMessage();
+		}
+		
+		// Go back to receiving state
+		Start.state = StatesFactory.getState(StatesFactory.RECEIVING_STATE);
 	}
 }

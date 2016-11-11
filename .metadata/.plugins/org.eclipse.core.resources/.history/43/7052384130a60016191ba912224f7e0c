@@ -1,0 +1,20 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+import kai.system.system.SocketConnection;
+import main.java.Start;
+
+public class SendingState extends States {
+	
+	public States execute(Kai kai) {
+		printCurrentState();
+		
+		if(Start.msg_flag) {
+			System.out.println("Sending message to ROS" + Start.msg);
+			SocketConnection.clearMessage();
+			return StatesFactory.getState(StatesFactory.RECEIVING_STATE);
+		}
+		
+		return this;
+	}
+}

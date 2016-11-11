@@ -1,0 +1,27 @@
+package kai.system.system;
+
+import kai.system.states.States;
+
+public class Kai {
+	// Class Members definition
+	RosConnection rosConn;
+	SocketConnection webConn;
+	States state;
+	
+	public Kai(String webUri, String rosUri, int rosPort) {
+//		rosConn = new RosConnection("localhost", 9090);
+		webConn = new SocketConnection(webUri);
+	}
+	
+	public RosConnection getROSConn() {
+		return rosConn;
+	}
+	
+	public SocketConnection getWebConn() {
+		return webConn;
+	}
+	
+	public boolean webConnected() {
+		return webConn.isConnected();
+	}
+}

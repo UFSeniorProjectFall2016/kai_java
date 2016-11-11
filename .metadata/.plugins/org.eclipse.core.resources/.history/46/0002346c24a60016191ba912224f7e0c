@@ -1,0 +1,34 @@
+package kai.system.system;
+
+public class Kai {
+	// Class Members definition
+	private String webUri;
+	private String rosUri;
+	private int rosPort;
+	
+	RosConnection rosConn;
+	SocketConnection webConn;
+	
+	public Kai(String webUri, String rosUri, int rosPort) {
+		this.webUri = webUri;
+		this.rosUri = rosUri;
+		this.rosPort = rosPort;
+	}
+	
+	public void connect() {
+//		rosConn = new RosConnection("localhost", 9090);
+		webConn = new SocketConnection(webUri);
+	}
+	
+	public RosConnection getROSConn() {
+		return rosConn;
+	}
+	
+	public SocketConnection getWebConn() {
+		return webConn;
+	}
+	
+	public boolean webConnected() {
+		return webConn.isConnected();
+	}
+}

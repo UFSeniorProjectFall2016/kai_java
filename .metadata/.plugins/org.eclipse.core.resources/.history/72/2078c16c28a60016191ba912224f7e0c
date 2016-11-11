@@ -1,0 +1,39 @@
+package main.java;
+
+import kai.system.states.States;
+import kai.system.states.StatesFactory;
+import kai.system.system.Kai;
+
+public class Start {
+	static States state;
+	
+	public static void main(String[] args) {
+		// String retrieved from args
+		String webUri = "https://sleepy-inlet-14613.herokuapp.com/";
+		String rosUri = "localhost";
+		int rosPort = 9090;
+		
+		// System and the states pattern for the system to move through
+		Kai kai = new Kai(webUri, rosUri, rosPort);
+		state = StatesFactory.getState(StatesFactory.BOOT_UP_STATE);
+		while(true) {
+			state = state.execute(kai);
+		}
+		
+//		do {
+//			// BOOT UP STATE
+//
+//			// CONNECTING STATE (Web & Ros)
+//			System.out.println("CONNECTING STATE");
+//			kai = new Kai(webUri, rosUri, rosPort);
+//			
+//			System.out.println("Connecting to Web ...");
+//			while(!kai.webConnected()) {}
+//			
+//			System.out.println("Connecting to ROS ...");
+//			
+//			
+//			// STATE PATTERN EXECUTION
+//		} while (true);
+	}
+}

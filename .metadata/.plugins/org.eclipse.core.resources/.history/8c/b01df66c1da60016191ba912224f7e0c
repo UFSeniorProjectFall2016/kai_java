@@ -1,0 +1,64 @@
+package kai.system.system;
+
+import java.net.URISyntaxException;
+
+import org.json.JSONObject;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
+public class SocketConnection {
+	// Class data members
+	private boolean connectionError = false;
+	private Socket socket;
+	private String message;
+	private boolean msgReceived;
+	
+	private void connect(String url) {
+		try {
+			socket = IO.socket(url);
+			
+			// Retrieving data from socket
+			socket.on("device status", new Emitter.Listener() {
+
+				public void call(Object... args) {
+					JSONObject obj = (JSONObject) args[0];
+					// Message received
+					SocketConnection.this.setMessage(obj.toString());
+				}
+			});
+			socket.connect();
+			connectionError = false;
+		} catch (URISyntaxException e) {
+			System.out.println("SOCKET DID NOT GET CREATED");
+			connectionError = true;
+		}
+	}
+	
+	// PUBLIC METHODS
+	public SocketConnection(String webUri) {
+		if(webUri.isEmpty()) {
+			System.out.println("Error will be thrown indicating connectionError");
+			connectionError = true;
+		} else {
+			this.connect(webUri);
+		}
+	}
+	
+	public boolean isConnected() {
+		return (socket == null) ? false : (!connectionError && socket.connected());
+	}
+	
+	public void clearMessage() {
+		setMessage(null);
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public void setMessage(String msg) {
+		message = msg;
+	}
+}

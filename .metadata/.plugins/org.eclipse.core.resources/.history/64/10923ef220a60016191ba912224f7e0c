@@ -1,0 +1,17 @@
+package kai.system.states;
+
+import kai.system.devices.DevicesFactory;
+import kai.system.devices.ExternalDevice;
+import kai.system.system.Kai;
+
+public class SendingState extends States {
+	
+	// Variables to parse user message
+	private static ExternalDevice ext = DevicesFactory.createExtDevice();
+	private static String rosMsg;
+	
+	public void execute(Kai kai) {
+		printCurrentState();
+		
+	}
+}
