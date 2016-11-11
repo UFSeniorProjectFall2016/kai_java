@@ -1,10 +1,15 @@
 package kai.system.devices;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ExternalDevice extends Devices {
-	
+	// device id conversion
+	private static HashMap<String, String> ext_2_int_dev = new HashMap<String, String>();
+		
 	// String Constant comparison
 	static final String DEVICE_TYPE = "_type";
 	static final String DEVICE_ID = "_id";
@@ -18,16 +23,46 @@ public class ExternalDevice extends Devices {
 	private String _id;
 	private String _name;
 	private boolean _state;
-	private boolean _status;
+	private String _status;
 	private String extMsg;
 	private boolean error_flag;
 	private String err_msg;
 	
+	private void createMsgString() {
+		extMsg = new String("{"+ DEVICE_TYPE +": \""+ _type + "\", " +
+					DEVICE_ID + ": \"" + _id + "\", " +
+					DEVICE_NAME + ": \"" + _name + "\", " + 
+					DEVICE_STATE + ": \"" + _state + "\", " + 
+					DEVICE_STATUS + ": \"" + _status + "\"}");
+	}
+	
+	// Default constructor. Use to create map external devices id
+	// to internal devices id
+	public ExternalDevice() {
+		this.reset();
+		for(Entry<String, String> el:devices.entrySet()) {
+			String key = el.getKey();
+			String value = el.getValue();
+			ext_2_int_dev.put(key, value);
+		}
+	}
+	
+	public ExternalDevice(int device_type, String _id, String _status) {
+		this.reset();
+		this.device_type = device_type;
+		this._id = _id;
+		this._state = true;
+		this._status = _status;
+		this.createMsgString();
+	}
+	
 	public void parse(String msg) {
 		// Expected String
 		// {id: "some id", name: "some name", status: "true or false"}
+		this.reset();
 		try {
 			parseJSON( new JSONObject(msg) );
+			extMsg = msg;
 		} catch (JSONException e) {
 			error_flag = true;
 			err_msg = "Error generated (External Dev). Invalid String JSON object message";
@@ -36,11 +71,11 @@ public class ExternalDevice extends Devices {
 	}
 	
 	public void parseJSON(JSONObject msg) {
-		reset();
 		try {
+			device_type = 1;
 			_id = msg.getString("id");
 //			_name = msg.getString("name");
-			_status = msg.getBoolean("status");
+			_status = msg.getString("status");
 		} catch (JSONException e) {
 			// set error in parsing message
 			error_flag = true;
@@ -49,46 +84,34 @@ public class ExternalDevice extends Devices {
 		}
 	}
 	
-	public void createType1Device() {
-		reset();
-		_type = "1";
-		_state = true;			// Device is online if true
-		_status = false;
-	}
-	
-	public void createType2Device() {
-		reset();
-		_type = "2";
-		_state = true;			// Device is online if true
-		_status = false;
-	}
-	
 	public void reset() {
 		device_type = -1;		// Device type not supported
 		_type = null;
 		_id = null;
 		_name = null;
 		_state = false;
-		_status = false;
+		_status = null;
 		extMsg = null;
 		error_flag = false;
 		err_msg = null;
 	}
 	
-	public boolean error() {
-		return error_flag;
+	public InternalDevice internalDevice() {
+//		System.out.println("Creating Internal Device: " + device_type + ", " +  _id + "," + _status);
+		String t = ext_2_int_dev.get(_id);
+		return new InternalDevice(device_type, t, _status);
 	}
 	
-	public String getErrorMsg() {
-		return err_msg;
-	}
-	
-	public String extDevToString() {
+	public String toString() {
 		return extMsg;
 	}
 
-	public String rosDevToString() {
-		return InternalDevice.generateDeviceMsg(_id, _status);
+	public boolean errorGenerated() {
+		return error_flag;
+	}
+
+	public String errorMessage() {
+		return err_msg;
 	}
 
 }
