@@ -1,0 +1,13 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class ReceivingState extends States {
+	// State specific variables
+	
+	public void execute(Kai kai) {
+		printCurrentState();
+		System.out.println("Thread before: " + Thread.currentThread().getName());
+		
+	}
+}

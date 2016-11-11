@@ -1,0 +1,19 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+import kai.system.system.SocketConnection;
+
+public class SendingState extends States {
+	
+	public States execute(Kai kai) {
+		printCurrentState();
+		
+		if(kai.getWebConn().hasReceivedMsg()) {
+			System.out.println("Sending message to ROS" + kai.getWebConn().getMessage());
+			kai.getWebConn().clearMessage();
+			return StatesFactory.getState(StatesFactory.RECEIVING_STATE);
+		}
+		
+		return this;
+	}
+}

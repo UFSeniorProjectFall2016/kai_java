@@ -1,0 +1,17 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class BootUpState extends States {
+	public void execute(Kai kai) {
+		prinCurrentState();
+		this.kai = kai;
+		// Retrieve connected user information
+		connect2DB();
+		nxtState = StatesFactory.getState(StatesFactory.CONNECTING_STATE);
+		
+		// Move to next state
+		Kai.state = nxtState;
+		nxtState.execute(kai);
+	}
+}

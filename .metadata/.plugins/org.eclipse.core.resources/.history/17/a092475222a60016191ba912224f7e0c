@@ -1,0 +1,10 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class BootUpState extends States {
+	public void execute(Kai kai) {
+		printCurrentState();
+		
+	}
+}

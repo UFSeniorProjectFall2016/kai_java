@@ -1,0 +1,19 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class ReceivingState extends States {
+	// State specific variables
+	
+	public States execute(Kai kai) {
+		printCurrentState();
+//		System.out.println("Thread before: " + Thread.currentThread().getName());
+		
+		// If Message received from user
+		if(kai.getWebConn().hasReceivedMsg()) {
+			return StatesFactory.getState(StatesFactory.SENDING_STATE);
+		}
+		
+		return this;
+	}
+}

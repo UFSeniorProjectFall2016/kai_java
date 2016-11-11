@@ -1,0 +1,7 @@
+package kai.system.system;
+
+public class Kai {
+	// Class Members definition
+	RosConnection rosConn;
+	SocketConnection webConn;
+}

@@ -3,12 +3,13 @@ package kai.system.states;
 import kai.system.system.Kai;
 
 public abstract class States {
-	protected Kai kai;
-	protected int prevState;
+	abstract public void execute(Kai kai);
 
-	public void setSystem(Kai kai) {
-		this.kai = kai;
+	public void printCurrentState() {
+		System.out.println("in: " + this);
 	}
-
-	public abstract void next();
+	
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
 }
