@@ -1,0 +1,12 @@
+package kai.system.system;
+
+import io.socket.client.Socket;
+
+public class RosConnection {
+	// Class Members
+	private String uri;
+	private Socket socket;
+	public RosConnection(String rosUri, int rosPort) {
+		
+	}
+}

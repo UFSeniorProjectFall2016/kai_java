@@ -20,14 +20,20 @@ public class SocketConnection {
 	private void connect() {
 		try {
 			socket = IO.socket(uri);
+//			this.sendMsg("connected_user", "Java Application");
 			
 			// Retrieving data from socket
+//			socket.on("connected_user", new Emitter.Listener() {
+//				public void call(Object... args) {
+//					System.out.println("Someone just connected");
+//				}
+//			});
 			socket.on("device status", new Emitter.Listener() {
 
 				public void call(Object... args) {
 					JSONObject obj = (JSONObject) args[0];
 					// Message received
-					Start.receiveMessage(obj.toString());
+					Start.receiveUserMessage(obj.toString());
 				}
 			});
 			socket.connect();
@@ -35,6 +41,13 @@ public class SocketConnection {
 		} catch (URISyntaxException e) {
 			System.out.println("SOCKET DID NOT GET CREATED");
 			connectionError = true;
+		}
+	}
+	
+	public void sendMsg(String msgType, String msgData) {
+		if(this.socket != null) {
+			System.out.println("Attempt to send a message");
+			socket.emit(msgType, msgData);
 		}
 	}
 	

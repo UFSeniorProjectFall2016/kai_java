@@ -1,0 +1,25 @@
+package kai.system.system;
+
+import edu.wpi.rail.jrosbridge.Ros;
+
+public class RosConnection {
+	// Class Members
+	private String uri;
+	private int port;
+	private Ros ros;
+	private Topic currTopic;
+	
+	private void connect() {
+		this.ros = new Ros(uri, port);
+		this.ros.connect();
+	}
+	
+	public RosConnection(String rosUri, int rosPort) {
+		this.uri = rosUri;
+		this.port = rosPort;
+	}
+	
+	public void setCurrTopic(String topicName, String msgType) {
+		currTopic = this.createTopic(topicName, msgType);
+	}
+}
