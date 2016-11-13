@@ -1,0 +1,25 @@
+package kai.system.system;
+
+import java.net.URISyntaxException;
+
+import org.json.JSONObject;
+
+import edu.wpi.rail.jrosbridge.Ros;
+import io.socket.client.IO;
+import io.socket.emitter.Emitter;
+import main.java.Start;
+
+public class RosConnection {
+	// Class Members
+	private String uri;
+	private int port;
+	private Ros ros;
+	
+	private void connect() {
+		this.ros = new Ros(uri, port)
+	}
+	
+	public RosConnection(String rosUri, int rosPort) {
+		
+	}
+}

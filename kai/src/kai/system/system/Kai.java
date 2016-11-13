@@ -16,8 +16,18 @@ public class Kai {
 	}
 	
 	public void connect() {
-//		rosConn = new RosConnection("localhost", 9090);
-		webConn = new SocketConnection(webUri);
+		this.connectWeb();
+		this.connectRos();
+	}
+	
+	public void connectWeb() {
+		if(!this.webConnected()) {
+			webConn = new SocketConnection(webUri);
+		}
+	}
+	
+	public void connectRos() {
+		rosConn = new RosConnection(rosUri, rosPort);
 	}
 	
 	public RosConnection getROSConn() {

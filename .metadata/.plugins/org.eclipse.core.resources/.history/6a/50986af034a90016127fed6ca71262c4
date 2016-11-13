@@ -1,0 +1,13 @@
+package kai.system.system;
+
+import edu.wpi.rail.jrosbridge.Ros;
+
+public class RosConnection {
+	// Class Members
+	private String uri;
+	private Ros ros;
+	
+	public RosConnection(String rosUri, int rosPort) {
+		
+	}
+}

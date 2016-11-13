@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 public class InternalDevice extends Devices {
 	// device id conversion
-	private static HashMap<String, String> int_2_ext_dev;
+	private static HashMap<String, String> int_2_ext_dev = new HashMap<String, String>();
 
 	// Class Members
 	private int device_type;
@@ -64,7 +64,7 @@ public class InternalDevice extends Devices {
 		err_msg = null;
 	}
 
-	public ExternalDevice internalDevice() {
+	public ExternalDevice externalDevice() {
 		return new ExternalDevice(device_type, _id, _status);
 	}
 	

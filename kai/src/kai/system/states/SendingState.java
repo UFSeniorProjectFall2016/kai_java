@@ -6,14 +6,21 @@ import main.java.Start;
 public class SendingState extends States {
 	
 	public void execute(Kai kai) {
-//		printCurrentState();
+		printCurrentState();
 		
 		// Wait for n milliseconds in sending state
 		long strt = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - strt < 200)) {}
-		if(Start.msg_flag) {
+		if(Start.user_msg_flag) {
 			System.out.println("Sending -> " + Start.et.internalDevice().toString());
-			Start.clearMessage();
+			try {
+				kai.getROSConn().sendMsg(Start.et.internalDevice().toString());
+				Start.clearUserMessage();
+			} catch(Exception e) {
+				System.out.println("ROS connection error occured while sending");
+				Start.state = StatesFactory.getState(StatesFactory.CONNECTING_STATE);
+				return;
+			}
 		}
 		
 		// Go back to receiving state

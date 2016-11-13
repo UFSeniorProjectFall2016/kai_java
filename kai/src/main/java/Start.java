@@ -1,22 +1,27 @@
 package main.java;
 
 import kai.system.devices.ExternalDevice;
+import kai.system.devices.InternalDevice;
 import kai.system.states.States;
 import kai.system.states.StatesFactory;
 import kai.system.system.Kai;
 
 public class Start {
 	public static States state;
-	public static boolean msg_flag = false;
 	public static boolean err_flag = false;
-	public static String msg = "";
+	public static boolean user_msg_flag = false;
+	public static String user_msg = "";
+	public static boolean ros_msg_flag = false;
+	public static String ros_msg = "";
 	
 	// Message parsing Variables
 	public static ExternalDevice et = new ExternalDevice();
+	public static InternalDevice it = new InternalDevice();
 
 	public static void main(String[] args) {
 		// String retrieved from args
 		String webUri = "https://sleepy-inlet-14613.herokuapp.com/";
+//		String webUri = "http://127.0.0.1:3000";
 		String rosUri = "localhost";
 		int rosPort = 9090;
 
@@ -29,15 +34,26 @@ public class Start {
 		}
 	}
 
-	public static void receiveMessage(String msg) {
-		Start.msg_flag = true;
-		Start.msg = msg;
-		Start.et.parse(Start.msg);
+	public static void receiveUserMessage(String msg) {
+		Start.user_msg_flag = true;
+		Start.user_msg = msg;
+		Start.et.parse(Start.user_msg);
 		Start.state = StatesFactory.getState(StatesFactory.SENDING_STATE);
 	}
 	
-	public static void clearMessage() {
-		Start.msg = "";
-		Start.msg_flag = false;
+	public static void receiveRosMessage(String msg) {
+		Start.ros_msg_flag = true;
+		Start.ros_msg = msg;
+		Start.it.parse(Start.ros_msg);
+	}
+	
+	public static void clearUserMessage() {
+		Start.user_msg = "";
+		Start.user_msg_flag = false;
+	}
+	
+	public static void clearRosMessage() {
+		Start.ros_msg = "";
+		Start.ros_msg_flag = false;
 	}
 }
