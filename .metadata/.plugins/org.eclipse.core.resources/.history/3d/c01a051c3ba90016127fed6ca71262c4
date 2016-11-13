@@ -1,0 +1,22 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+import main.java.Start;
+
+public class ReceivingState extends States {
+	public void execute(Kai kai) {
+//		printCurrentState();
+//		System.out.println("Thread before: " + Thread.currentThread().getName());
+		try {
+			kai.getROSConn().receiveMsg();
+			
+		} catch(Exception e) {
+			System.out.println("ROS connection error occured while receiving");
+			Start.state = StatesFactory.getState(StatesFactory.CONNECTING_STATE);
+			return;
+		}
+		
+		kai.getWebConn().sendMsg("device status", "{id: #light, name: Living-room light, status:true}");
+		Start.state = StatesFactory.getState(StatesFactory.SENDING_STATE);
+	}
+}

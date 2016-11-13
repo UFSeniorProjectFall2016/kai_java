@@ -1,0 +1,22 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+import kai.system.system.SocketConnection;
+
+public class ReceivingState extends States {
+	// State specific variables
+	
+	public States execute(Kai kai) {
+		printCurrentState();
+//		System.out.println("Thread before: " + Thread.currentThread().getName());
+		
+		// If Message received from user
+		System.out.println("has received: " + SocketConnection.hasReceivedMsg());
+		if(SocketConnection.hasReceivedMsg()) {
+			System.out.println("I'M HERE FAM...");
+			return StatesFactory.getState(StatesFactory.SENDING_STATE);
+		}
+		
+		return this;
+	}
+}

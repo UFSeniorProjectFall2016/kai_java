@@ -1,0 +1,18 @@
+package kai.system.devices;
+
+import java.util.HashMap;
+
+public abstract class Devices {
+	protected static HashMap<String, String>  devices = new HashMap<String, String>();
+	
+	static {
+		devices.put("#light", "L");
+		devices.put("#wind", "W");
+		devices.put("coffee", "C");
+		devices.put("door", "D");
+	};
+	
+	public abstract void parse(String msg);
+	public abstract void reset();
+	public abstract String toString();
+}

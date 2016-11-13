@@ -1,0 +1,72 @@
+package kai.system.devices;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+public class InternalDevice extends Devices {
+	// device id conversion
+	private static HashMap<String, String> int_2_ext_dev;
+	
+	// Class Members
+	private int device_type;
+	private char _id;
+	private String _status;
+	private String intMsg;
+	private boolean error_flag;
+	private String err_msg;
+	
+	
+	public InternalDevice() {
+		for(Entry<String, String> el:devices.entrySet()) {
+			String key = el.getValue();
+			String value = el.getKey();
+			int_2_ext_dev.put(key, value);
+		}
+	}
+	
+	public void parse(String msg) {
+		reset();
+		if(msg.isEmpty()) {
+			// Error, Empty message
+			error_flag = true;
+			err_msg = "Empty message";
+			return;
+		} 
+		
+		// Parse message received from ROS
+		intMsg = msg;
+		
+	}
+	
+	public static String generateDeviceMsg(String _id, boolean status) {
+		// This should be replaced by a dictionary to get 
+		// the correct ros id from the external client id
+		// For now replace with switch statement
+		String res = "{\"";
+		
+		if(_id.equalsIgnoreCase("#light")) {
+			res += "L";
+		} else if(_id.equalsIgnoreCase("#window")) {
+			res += "w";
+		}
+		
+		res += (status) ? "ON" : "OF";
+		res += "\"}";
+		return res;
+	}
+	
+	public void reset() {
+		device_type = -1;		// Device type not supported
+		error_flag = false;
+		intMsg = null;
+		err_msg = null;
+	}
+
+	
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

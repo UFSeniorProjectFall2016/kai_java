@@ -1,0 +1,10 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class ConnectingState extends States {
+	public States execute(Kai kai) {
+		printCurrentState();
+		state = StatesFactory.getState(StatesFactory.CONNECTING_STATE);
+	}
+}

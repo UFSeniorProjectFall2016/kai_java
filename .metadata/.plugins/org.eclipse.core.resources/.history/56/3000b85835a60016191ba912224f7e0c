@@ -1,0 +1,11 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class BootUpState extends States {
+	public States execute(Kai kai) {
+		printCurrentState();
+		
+		return StatesFactory.getState(StatesFactory.CONNECTING_STATE);
+	}
+}

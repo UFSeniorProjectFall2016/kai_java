@@ -1,0 +1,34 @@
+package kai.system.states;
+
+import kai.system.system.Kai;
+
+public class ConnectingState extends States {
+	public void execute(Kai kai) {
+		kai.setState(this);
+		prinCurrentState();
+		this.kai = kai;
+		
+		// User authentication failed
+		if (!this.kai.dbConStatus) {
+			nxtState = StatesFactory.getState(StatesFactory.ERROR_STATE);
+		} 
+//		else if (this.kai.getState() == StatesFactory.getState(StatesFactory.SENDING_STATE)) {
+//			nxtState = StatesFactory.getState(StatesFactory.SENDING_STATE);
+//		} 
+		else {
+//			connect2Ros();
+			connect2Web();
+			this.kai.rosConStatus = true;
+
+			if (this.kai.rosConStatus && this.kai.isWebConnected()) {
+				nxtState = StatesFactory.getState(StatesFactory.RECEIVING_STATE);
+			} else {
+				nxtState = StatesFactory.getState(StatesFactory.CONNECTING_STATE);
+			}
+		}
+		
+		// Move to the next state
+//		Kai.state = nxtState;
+//		nxtState.execute(kai);
+	}
+}
