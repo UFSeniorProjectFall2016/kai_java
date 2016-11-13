@@ -1,12 +1,11 @@
 package kai.system.system;
 
-import java.net.URISyntaxException;
-
-import org.json.JSONObject;
-
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+
+import java.net.URISyntaxException;
+
 import main.java.Start;
 
 public class SocketConnection {
@@ -20,20 +19,14 @@ public class SocketConnection {
 	private void connect() {
 		try {
 			socket = IO.socket(uri);
-//			this.sendMsg("connected_user", "Java Application");
-			
-			// Retrieving data from socket
-//			socket.on("connected_user", new Emitter.Listener() {
-//				public void call(Object... args) {
-//					System.out.println("Someone just connected");
-//				}
-//			});
+			this.sendMsg("connected_user", "Java Application");
 			socket.on("device status", new Emitter.Listener() {
 
 				public void call(Object... args) {
-					JSONObject obj = (JSONObject) args[0];
-					// Message received
-					Start.receiveUserMessage(obj.toString());
+					if(args.length != 0) {
+						// Message received
+						Start.receiveUserMessage(args[0].toString());
+					}
 				}
 			});
 			socket.connect();
@@ -46,7 +39,6 @@ public class SocketConnection {
 	
 	public void sendMsg(String msgType, String msgData) {
 		if(this.socket != null) {
-			System.out.println("Attempt to send a message");
 			socket.emit(msgType, msgData);
 		}
 	}

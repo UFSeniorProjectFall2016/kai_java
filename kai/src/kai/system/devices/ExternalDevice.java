@@ -29,11 +29,17 @@ public class ExternalDevice extends Devices {
 	private String err_msg;
 	
 	private void createMsgString() {
-		extMsg = new String("{"+ DEVICE_TYPE +": \""+ _type + "\", " +
-					DEVICE_ID + ": \"" + _id + "\", " +
-					DEVICE_NAME + ": \"" + _name + "\", " + 
-					DEVICE_STATE + ": \"" + _state + "\", " + 
-					DEVICE_STATUS + ": \"" + _status + "\"}");
+		try {
+			JSONObject json = new JSONObject();
+			json.put(DEVICE_TYPE, _type);
+			json.put(DEVICE_NAME, _name);
+			json.put(DEVICE_STATE, _state);
+			json.put(DEVICE_STATUS, _status);
+			extMsg = json.toString();
+		} catch (JSONException e) {
+			error_flag = true;
+			err_msg = "Error in generating JSON message object";
+		}
 	}
 	
 	// Default constructor. Use to create map external devices id
@@ -58,7 +64,6 @@ public class ExternalDevice extends Devices {
 	
 	public void parse(String msg) {
 		// Expected String
-		// {id: "some id", name: "some name", status: "true or false"}
 		this.reset();
 		try {
 			parseJSON( new JSONObject(msg) );
@@ -72,10 +77,11 @@ public class ExternalDevice extends Devices {
 	
 	public void parseJSON(JSONObject msg) {
 		try {
-			device_type = 1;
-			_id = msg.getString("id");
-//			_name = msg.getString("name");
-			_status = msg.getString("status");
+			device_type = msg.getInt("_type");
+			_id = msg.getString("_id");
+			_name = msg.getString("_name");
+			_state = msg.getBoolean("_state");
+			_status = msg.getString("_status");
 		} catch (JSONException e) {
 			// set error in parsing message
 			error_flag = true;
@@ -97,7 +103,6 @@ public class ExternalDevice extends Devices {
 	}
 	
 	public InternalDevice internalDevice() {
-//		System.out.println("Creating Internal Device: " + device_type + ", " +  _id + "," + _status);
 		String t = ext_2_int_dev.get(_id);
 		return new InternalDevice(device_type, t, _status);
 	}

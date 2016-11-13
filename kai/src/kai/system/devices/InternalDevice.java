@@ -3,6 +3,9 @@ package kai.system.devices;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class InternalDevice extends Devices {
 	// device id conversion
 	private static HashMap<String, String> int_2_ext_dev = new HashMap<String, String>();
@@ -45,7 +48,33 @@ public class InternalDevice extends Devices {
 
 		// Parse message received from ROS
 		intMsg = msg;
+		try {
+			parseJSON( new JSONObject(msg) );
+		} catch (JSONException e) {
+			error_flag = true;
+			err_msg = "Error generated (Internal Dev). Invalid String JSON object message";
+			System.out.println(err_msg);
+		}
 
+	}
+	
+	private void parseJSON(JSONObject msg) {
+		try {
+			device_type = 3;
+			_id = "HC";
+			String tmp = msg.getString("data");
+			if(tmp.length() >= 2) {
+				JSONObject json = new JSONObject();
+				json.put("H", (int)tmp.charAt(0));
+				json.put("T", (int)tmp.charAt(1));
+				this._status = json.toString();
+			}
+		} catch (JSONException e) {
+			// set error in parsing message
+			error_flag = true;
+			err_msg = "Error generated in parsing JSON message";
+			System.out.println(err_msg);
+		}
 	}
 
 	private void createMsgString() {
@@ -65,7 +94,8 @@ public class InternalDevice extends Devices {
 	}
 
 	public ExternalDevice externalDevice() {
-		return new ExternalDevice(device_type, _id, _status);
+		String _newId = int_2_ext_dev.get(this._id);
+		return new ExternalDevice(device_type, _newId, _status);
 	}
 	
 	public String toString() {

@@ -21,7 +21,7 @@ public class Start {
 	public static void main(String[] args) {
 		// String retrieved from args
 		String webUri = "https://sleepy-inlet-14613.herokuapp.com/";
-//		String webUri = "http://127.0.0.1:3000";
+//		String webUri = "http://192.168.0.102:5000";
 		String rosUri = "localhost";
 		int rosPort = 9090;
 
@@ -35,16 +35,19 @@ public class Start {
 	}
 
 	public static void receiveUserMessage(String msg) {
-		Start.user_msg_flag = true;
-		Start.user_msg = msg;
-		Start.et.parse(Start.user_msg);
-		Start.state = StatesFactory.getState(StatesFactory.SENDING_STATE);
+		Start.et.parse(msg);
+//		if(!Start.et.errorGenerated()) {
+			Start.user_msg_flag = true;
+			Start.user_msg = msg;
+			Start.state = StatesFactory.getState(StatesFactory.SENDING_STATE);
+//		}
+//		Start.clearUserMessage();
 	}
 	
 	public static void receiveRosMessage(String msg) {
 		Start.ros_msg_flag = true;
 		Start.ros_msg = msg;
-		Start.it.parse(Start.ros_msg);
+		Start.it.parse(msg);
 	}
 	
 	public static void clearUserMessage() {

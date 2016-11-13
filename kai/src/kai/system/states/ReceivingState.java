@@ -5,13 +5,16 @@ import main.java.Start;
 
 public class ReceivingState extends States {
 	public void execute(Kai kai) {
-		printCurrentState();
+//		printCurrentState();
 //		System.out.println("Thread before: " + Thread.currentThread().getName());
 		try {
 			kai.getROSConn().receiveMsg();
-//			kai.getWebConn().sendMsg("device status", "{id: #light, name: Living-room light, status:true}");
-			kai.getWebConn().sendMsg("device status", Start.it.externalDevice().toString());
-			Start.clearRosMessage();
+			if(Start.ros_msg_flag) {
+				String tmp = Start.it.externalDevice().toString();
+				System.out.println("ROS message received: " + tmp);
+				kai.getWebConn().sendMsg("feedback", tmp);
+				Start.clearRosMessage();
+			}
 		} catch(Exception e) {
 			System.out.println("ROS connection error occured while receiving");
 			Start.state = StatesFactory.getState(StatesFactory.CONNECTING_STATE);
