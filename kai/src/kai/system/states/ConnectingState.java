@@ -10,14 +10,14 @@ public class ConnectingState extends States {
 		
 		// Try establishing connection for 5 seconds max
 		strt = System.currentTimeMillis();
-		System.out.println("Connecting to web ...");
+		System.out.println("\tConnecting to web ...");
 		kai.connectWeb();
 		while ( !kai.webConnected() && (System.currentTimeMillis()-strt < 5000) ) {}
 		
-		System.out.println("Connecting to ros ...");
+		System.out.println("\tConnecting to ros ...");
 		kai.connectRos();
 		
-		System.out.println("Done connecting");
+		System.out.println("\tConnection complete");
 		// Proceed to the receiving state
 		Start.state = StatesFactory.getState(StatesFactory.RECEIVING_STATE);
 	}
