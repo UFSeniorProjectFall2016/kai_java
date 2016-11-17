@@ -13,6 +13,8 @@ public class Start {
 	public static String user_msg = "";
 	public static boolean ros_msg_flag = false;
 	public static String ros_msg = "";
+	public static boolean sys_con_msg_flag = false;
+	public static String[] sys_con_msgs;
 	
 	// Message parsing Variables
 	public static ExternalDevice et = new ExternalDevice();
@@ -24,9 +26,11 @@ public class Start {
 //		String webUri = "http://192.168.0.102:5000";
 		String rosUri = "localhost";
 		int rosPort = 9090;
-
+		String dbPath = null;	// default
+		
+		
 		// System and the states pattern for the system to move through
-		Kai kai = new Kai(webUri, rosUri, rosPort);
+		Kai kai = new Kai(webUri, rosUri, rosPort, dbPath);
 		Start.state = StatesFactory.getState(StatesFactory.BOOT_UP_STATE);
 
 		while(true) {

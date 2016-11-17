@@ -23,7 +23,6 @@ INDEX VERSION 1.127+/Users/Kin/Documents/github/official/kai_java/.metadata/.plu
 1732019476.index
 1986200697.index
 3941105200.index
-3575629743.index
 3201157021.index
 1576054074.index
 1535159557.index

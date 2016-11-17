@@ -4,18 +4,28 @@ import kai.system.system.Kai;
 import main.java.Start;
 
 public class ConnectingState extends States {
-	private long strt;
 	public void execute(Kai kai) {
 		printCurrentState();
 		
-		// Try establishing connection for 5 seconds max
-		strt = System.currentTimeMillis();
-		System.out.println("\tConnecting to web ...");
-		kai.connectWeb();
-		while ( !kai.webConnected() && (System.currentTimeMillis()-strt < 5000) ) {}
+		// Try establishing connection to webclient
+		if(kai.webConnected()) {
+			System.out.println("\tConnected to Web!");
+		} else {
+			System.out.println("\tConnecting to web ...");
+			kai.connectWeb();
+		}
 		
-		System.out.println("\tConnecting to ros ...");
-		kai.connectRos();
+		if(kai.rosConnected()) {
+			System.out.println("\tConnected to ROS!");
+		} else {
+			System.out.println("\tConnecting to ros ...");
+			kai.connectRos();
+		}
+		
+		if(!kai.rosConnected()) {
+			Start.state = StatesFactory.getState(StatesFactory.ERROR_STATE);
+			return;
+		}
 		
 		System.out.println("\tConnection complete");
 		// Proceed to the receiving state

@@ -15,10 +15,10 @@ public class SendingState extends States {
 			System.out.println("Sending " + Start.user_msg + "-> " + Start.et.internalDevice().toString());
 			try {
 				kai.getROSConn().sendMsg(Start.et.internalDevice().toString());
+				kai.getDBConn().saveToDB(Start.et.getDevId(), Start.et.toString());
 				Start.clearUserMessage();
 			} catch(Exception e) {
-				System.out.println("ROS connection error occured while sending");
-				Start.state = StatesFactory.getState(StatesFactory.CONNECTING_STATE);
+				Start.state = StatesFactory.getState(StatesFactory.ERROR_STATE);
 				return;
 			}
 		}

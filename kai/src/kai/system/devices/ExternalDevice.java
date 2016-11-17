@@ -102,6 +102,10 @@ public class ExternalDevice extends Devices {
 		err_msg = null;
 	}
 	
+	public String getDevId() {
+		return this._id;
+	}
+	
 	public InternalDevice internalDevice() {
 		String t = ext_2_int_dev.get(_id);
 		return new InternalDevice(device_type, t, _status);
