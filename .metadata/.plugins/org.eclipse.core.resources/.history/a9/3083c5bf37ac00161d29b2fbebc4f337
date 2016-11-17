@@ -1,0 +1,18 @@
+package kai.system.system;
+
+public class DatabaseConnection {
+	private String dbUri;
+	
+	private Hashmap<String, String> data;
+	
+	public DatabaseConnection(String dbUri) {
+		// Default to current directory if database path not provided
+		if(dbUri == null) {
+			this.dbUri = System.getProperty("user.dir");
+		}
+		
+		
+	}
+	
+	
+}

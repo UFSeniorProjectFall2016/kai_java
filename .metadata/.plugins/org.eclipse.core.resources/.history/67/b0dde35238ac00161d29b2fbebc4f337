@@ -1,0 +1,26 @@
+package kai.system.system;
+
+import java.util.HashMap;
+import kai.system.devices.ExternalDevice;
+
+public class DatabaseConnection {
+	private String dbUri;
+	private HashMap<String, String> data;
+	private static ExternalDevice parser = new ExternalDevice();
+	
+	public DatabaseConnection(String dbUri) {
+		// Create empty HashMap
+		data = new HashMap<String, String>();
+		
+		// Default to current directory if database path not provided
+		if(dbUri == null) {
+			this.dbUri = System.getProperty("user.dir");
+		}
+		
+		
+	}
+	
+	public String getDBUri() {
+		
+	}
+}
