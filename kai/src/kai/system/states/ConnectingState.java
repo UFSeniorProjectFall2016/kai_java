@@ -10,6 +10,7 @@ public class ConnectingState extends States {
 		// Try establishing connection to webclient
 		if(kai.webConnected()) {
 			System.out.println("\tConnected to Web!");
+			kai.getWebConn().sendMsg("ping_res", "1");
 		} else {
 			System.out.println("\tConnecting to web ...");
 			kai.connectWeb();

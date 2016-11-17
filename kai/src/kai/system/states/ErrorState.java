@@ -7,6 +7,7 @@ public class ErrorState extends States {
 	private long strt;
 	public void execute(Kai kai) {
 		printCurrentState();
+		kai.getWebConn().sendMsg("ping_res", "0");
 		
 		// This serves no purpose other than to wait in that state for 1 ms
 		strt = System.currentTimeMillis();

@@ -1,11 +1,14 @@
 package kai.system.system;
 
+import java.net.URISyntaxException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-
-import java.net.URISyntaxException;
-
 import main.java.Start;
 
 public class SocketConnection {
@@ -20,11 +23,12 @@ public class SocketConnection {
 		try {
 			socket = IO.socket(uri);
 			this.sendMsg("connected_user", "Java Application");
-			socket.on("ping system", new Emitter.Listener() {
+			this.sendMsg("ping_res", "1");
+			socket.on("ping_req", new Emitter.Listener() {
 				public void call(Object... args) {
 					// Find out who made the request
 					// Send feed back only if user is approved
-					
+					System.out.println("I got one");
 					connection_flag = true;	// Connection is alive
 				}
 			}).on("device status", new Emitter.Listener() {
@@ -37,6 +41,25 @@ public class SocketConnection {
 					
 					connection_flag = true; // connection is alive
 				}
+			}).on("status_req", new Emitter.Listener() {
+				public void call(Object... args) {
+					// emit every single device status to user
+					System.out.println("request all devices");
+					
+					JSONArray jarr = new JSONArray();
+					JSONObject o;
+					try {
+						for(String s:  DatabaseConnection.getAllDevices()) {
+							o = new JSONObject(s);
+							jarr.put(o);
+						}
+					} catch(JSONException e) {
+						e.printStackTrace();
+					}
+					
+					sendMsg("status_res", jarr);
+					connection_flag = true;	// Connection is alive
+				}
 			});
 			socket.connect();
 			connection_flag = true;
@@ -47,6 +70,12 @@ public class SocketConnection {
 	}
 	
 	public void sendMsg(String msgType, String msgData) {
+		if(this.socket != null) {
+			socket.emit(msgType, msgData);
+		}
+	}
+	
+	public void sendMsg(String msgType, Object msgData) {
 		if(this.socket != null) {
 			socket.emit(msgType, msgData);
 		}

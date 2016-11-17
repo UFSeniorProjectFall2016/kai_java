@@ -5,13 +5,13 @@ import main.java.Start;
 
 public class ReceivingState extends States {
 	public void execute(Kai kai) {
-//		printCurrentState();
-//		System.out.println("Thread before: " + Thread.currentThread().getName());
+		printCurrentState();
+		kai.getWebConn().sendMsg("ping_res", "2");
 		try {
 			kai.getROSConn().receiveMsg();
 			if(Start.ros_msg_flag) {
 				String tmp = Start.it.externalDevice().toString();
-				System.out.println("ROS message received: " + tmp);
+				System.out.println("\tROS message received: " + tmp);
 				kai.getWebConn().sendMsg("feedback", tmp);
 				Start.clearRosMessage();
 			}
