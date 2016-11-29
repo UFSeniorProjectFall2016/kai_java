@@ -15,10 +15,14 @@ public class ConnectingState extends States {
 			kai.connectWeb();
 		}
 		
+		
 		if(kai.rosConnected()) {
 			System.out.println("\tConnected to ROS!");
 		} else {
 			System.out.println("\tConnecting to ros ...");
+			if(Kai.updateConnectionStatusMsg(Kai.stdMsg, 1, "Kai system is connecting")) {
+				kai.getWebConn().sendMsg("ping_res", Kai.stdMsg);
+			}
 			kai.connectRos();
 		}
 		
@@ -29,6 +33,9 @@ public class ConnectingState extends States {
 		
 		System.out.println("\tConnection complete");
 		// Proceed to the receiving state
+		if(Kai.updateConnectionStatusMsg(Kai.stdMsg, 2, "Kai system is online")) {
+			kai.getWebConn().sendMsg("ping_res", Kai.stdMsg);
+		}
 		Start.state = StatesFactory.getState(StatesFactory.RECEIVING_STATE);
 	}
 }

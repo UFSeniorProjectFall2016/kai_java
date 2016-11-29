@@ -9,7 +9,7 @@ public class BootUpState extends States {
 		System.out.println("\tConnecting to local Database");
 		kai.connectDB();
 		if(kai.getDBConn().numDataAvailable() != 0) {
-			Start.sys_con_msgs = kai.getDBConn().getDBData();
+			Start.sys_con_msgs = kai.getDBConn().getDBData().clone();
 			Start.sys_con_msg_flag = true;
 		} else {
 			Start.sys_con_msg_flag = false;

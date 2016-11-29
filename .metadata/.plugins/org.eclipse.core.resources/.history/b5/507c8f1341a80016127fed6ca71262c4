@@ -1,5 +1,0 @@
-package kai.system.devices;
-
-public interface KaiMessage {
-
-}

@@ -1,8 +1,0 @@
-package kai.system.system;
-
-public class RosConnection {
-
-	public RosConnection(String rosUri, int rosPort) {
-		
-	}
-}

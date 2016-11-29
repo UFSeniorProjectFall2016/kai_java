@@ -10,7 +10,6 @@
 <fullyQualifiedTypeName name="io.socket.emitter.Emitter.Listener"/>
 <fullyQualifiedTypeName name="io.socket.emitter.Emitter"/>
 <fullyQualifiedTypeName name="kai.system.devices.Devices"/>
-<fullyQualifiedTypeName name="javax.json.Json"/>
 <fullyQualifiedTypeName name="kai.system.states.ReceivingState"/>
 <fullyQualifiedTypeName name="kai.system.devices.DevicesFactory"/>
 <fullyQualifiedTypeName name="org.json.JSONObject"/>
@@ -25,4 +24,8 @@
 <fullyQualifiedTypeName name="kai.system.system.SocketConnection"/>
 <fullyQualifiedTypeName name="kai.system.states.StatesFactory"/>
 <fullyQualifiedTypeName name="main.java.Start"/>
+<fullyQualifiedTypeName name="javax.naming.ldap.StartTlsRequest"/>
+<fullyQualifiedTypeName name="org.json.JSONArray"/>
+<fullyQualifiedTypeName name="javax.json.Json"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
 </qualifiedTypeNameHistroy>

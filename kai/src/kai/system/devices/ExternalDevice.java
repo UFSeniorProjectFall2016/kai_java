@@ -1,5 +1,6 @@
 package kai.system.devices;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -11,8 +12,8 @@ public class ExternalDevice extends Devices {
 	private static HashMap<String, String> ext_2_int_dev = new HashMap<String, String>();
 		
 	// String Constant comparison
-	static final String DEVICE_TYPE = "_type";
-	static final String DEVICE_ID = "_id";
+	static final String DEVICE_TYPE = "_devType";
+	static final String DEVICE_ID = "_devid";
 	static final String DEVICE_NAME = "_name";
 	static final String DEVICE_STATE = "_state";
 	static final String DEVICE_STATUS = "_status";
@@ -31,6 +32,8 @@ public class ExternalDevice extends Devices {
 	private void createMsgString() {
 		try {
 			JSONObject json = new JSONObject();
+			json.put("origin", "Kai");
+			json.put("date", new Date());
 			json.put(DEVICE_TYPE, _type);
 			json.put(DEVICE_NAME, _name);
 			json.put(DEVICE_STATE, _state);
@@ -77,11 +80,11 @@ public class ExternalDevice extends Devices {
 	
 	public void parseJSON(JSONObject msg) {
 		try {
-			device_type = msg.getInt("_type");
-			_id = msg.getString("_id");
-			_name = msg.getString("_name");
-			_state = msg.getBoolean("_state");
-			_status = msg.getString("_status");
+			device_type = msg.getInt(DEVICE_TYPE);
+			_id = msg.getString(DEVICE_ID);
+			_name = msg.getString(DEVICE_NAME);
+			_state = msg.getBoolean(DEVICE_STATE);
+			_status = String.valueOf(msg.getInt(DEVICE_STATUS));
 		} catch (JSONException e) {
 			// set error in parsing message
 			error_flag = true;

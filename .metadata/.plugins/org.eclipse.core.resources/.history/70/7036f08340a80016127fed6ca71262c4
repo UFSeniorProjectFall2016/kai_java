@@ -1,9 +1,0 @@
-package kai.system.devices;
-
-public abstract class Devices {
-	
-	
-	public abstract void parse(String msg);
-	public abstract void reset();
-	public abstract String toString();
-}

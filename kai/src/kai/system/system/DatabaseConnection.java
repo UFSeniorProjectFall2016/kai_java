@@ -13,7 +13,7 @@ import kai.system.devices.ExternalDevice;
 
 public class DatabaseConnection {
 	private String dbUri;
-	private HashMap<String, String> data;
+	private static HashMap<String, String> data;
 	private static ExternalDevice parser = new ExternalDevice();
 
 	public DatabaseConnection(String dbUri) {
@@ -84,11 +84,21 @@ public class DatabaseConnection {
 		return this.dbUri;
 	}
 	
-	public String[] getDBData() {
+	public static String[] getAllDevices() {
 		if(data.isEmpty()) {
 			return null;
 		}
-		return (String[]) data.values().toArray();
+		
+		String[] tmp = new String[data.values().toArray().length];
+		int i = 0;
+		for(Object o: data.values().toArray()) {
+			tmp[i++] = o.toString();
+		}
+		return tmp;
+	}
+	
+	public String[] getDBData() {
+		return getAllDevices();
 	}
 	
 	public void saveToDB(String key, String value) {

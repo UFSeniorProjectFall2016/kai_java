@@ -22,7 +22,8 @@ public class Start {
 
 	public static void main(String[] args) {
 		// String retrieved from args
-		String webUri = "https://sleepy-inlet-14613.herokuapp.com/";
+//		String webUri = "https://sleepy-inlet-14613.herokuapp.com/";
+		String webUri = "http://localhost:3000";
 //		String webUri = "http://192.168.0.102:5000";
 		String rosUri = "localhost";
 		int rosPort = 9090;

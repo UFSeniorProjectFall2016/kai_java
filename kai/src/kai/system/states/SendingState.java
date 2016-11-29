@@ -6,13 +6,14 @@ import main.java.Start;
 public class SendingState extends States {
 	
 	public void execute(Kai kai) {
-//		printCurrentState();
+		printCurrentState();
+		kai.getWebConn().sendMsg("ping_res", "2");
 		
 		// Wait for n milliseconds in sending state
 		long strt = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - strt < 30)) {}
 		if(Start.user_msg_flag) {
-			System.out.println("Sending " + Start.user_msg + "-> " + Start.et.internalDevice().toString());
+			System.out.println("\tSending " + Start.user_msg + "-> " + Start.et.internalDevice().toString());
 			try {
 				kai.getROSConn().sendMsg(Start.et.internalDevice().toString());
 				kai.getDBConn().saveToDB(Start.et.getDevId(), Start.et.toString());
