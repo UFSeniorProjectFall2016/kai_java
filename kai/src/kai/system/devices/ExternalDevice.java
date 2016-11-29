@@ -1,5 +1,6 @@
 package kai.system.devices;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -31,6 +32,8 @@ public class ExternalDevice extends Devices {
 	private void createMsgString() {
 		try {
 			JSONObject json = new JSONObject();
+			json.put("origin", "Kai");
+			json.put("date", new Date());
 			json.put(DEVICE_TYPE, _type);
 			json.put(DEVICE_NAME, _name);
 			json.put(DEVICE_STATE, _state);

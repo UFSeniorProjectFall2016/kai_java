@@ -1,6 +1,0 @@
-package kai.system.system;
-
-public class Kai {
-	// Class Members definition
-	SocketConnection webConn;
-}

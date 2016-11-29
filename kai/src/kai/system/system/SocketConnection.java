@@ -1,6 +1,7 @@
 package kai.system.system;
 
 import java.net.URISyntaxException;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,13 +24,15 @@ public class SocketConnection {
 		try {
 			socket = IO.socket(uri);
 			this.sendMsg("connected_user", "Java Application");
-			this.sendMsg("ping_res", "1");
+//			if(Kai.updateConnectionStatusMsg(Kai.stdMsg, 1, "System just booted up. Last devices states loaded")) {
+//				this.sendMsg("ping_res", Kai.stdMsg);
+//			}
 			socket.on("ping_req", new Emitter.Listener() {
 				public void call(Object... args) {
 					// Find out who made the request
 					// Send feed back only if user is approved
-					System.out.println("I got one");
 					connection_flag = true;	// Connection is alive
+					sendMsg("ping_res", Kai.updateConnectionStatusMsg(Kai.stdMsg, 1, "Kai system is online"));
 				}
 			}).on("device status", new Emitter.Listener() {
 
@@ -38,7 +41,6 @@ public class SocketConnection {
 						// Message received
 						Start.receiveUserMessage(args[0].toString());
 					}
-					
 					connection_flag = true; // connection is alive
 				}
 			}).on("status_req", new Emitter.Listener() {
